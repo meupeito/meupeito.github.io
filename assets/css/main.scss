@@ -65,3 +65,7 @@ $asset_url: '{{ '/assets' | absolute_url }}';
 a.blue {
   color: #0b00ab
 }
+
+audio {
+  width: 100%
+}

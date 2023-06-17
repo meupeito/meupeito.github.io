@@ -2,46 +2,76 @@
 layout: default
 ---
 
-<script>
-    // Set the date we're counting down to
-    var countDownDate = new Date("Jun 12, 2023").getTime();
-    
-    // Update the count down every 1 second
-    var x = setInterval(function() {
-    
-      // Get today's date and time
-      var now = new Date().getTime();
-    
-      // Find the distance between now and the count down date
-      var distance = countDownDate - now;
-    
-      // Time calculations for days, hours, minutes and seconds
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-      // Display the result in the element with id="demo"
-      document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
-      + minutes + "m " + seconds + "s ";
-    
-      // If the count down is finished, write some text
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("link").innerHTML = "<a class='blue' href='/2023/06/12/le-nouveau-mythe'>Cariño</a>";
-      }
-    }, 1000);
-</script>
-
-<header class="site-masthead">
+{% if site.data.menu and site.paginate and site.paginate_path and paginator.page > 1 %}
   {% include menu.html %}
-  {% if site.title %}
-    <h1 id="link">
-      <p id="countdown"></p>
-    </h1>
-  {% endif %}
-</header>
+{% elsif site.paginate and site.paginate_path and paginator.page > 1 %}
+  {% include back-link.html %}
+{% else %}
+  <header class="site-masthead">
+    {% include menu.html %}
+    {% if site.title %}
+      <h1>
+        {{ site.title }}
+      </h1>
+    {% endif %}
+    {% if site.title %}
+      <h2>
+        {{ site.description }}
+      </h2>
+    {% endif %}
+  </header>
+{% endif %}
 
-<main class="home" id="main" role="main" aria-label="Content">    
+<main class="home" id="main" role="main" aria-label="Content">
+
+  <h1 class="content-title divided">
+    {% if site.paginate and site.paginate_path and paginator.page > 1 %}
+      Página {{ paginator.page }}
+    {% else %}
+      
+    {% endif %}
+  </h1>
+
+  {% if site.paginate and site.paginate_path %}
+    
+    <ul class="post-list">
+      {% for post in paginator.posts %}
+        {% if post.category == "debug" %}
+          {% if site.debug %}
+            {% include post-list-item.html %}
+          {% endif %}
+        {% else %}
+          {% include post-list-item.html %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% if paginator.total_pages > 1 %}
+
+      <div class="post-pagination">
+        {% if paginator.previous_page %}
+          <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="pagination-previous btn">&nbsp;&lang;</a>
+        {% else %}
+          <span>&nbsp;</span>
+        {% endif %}
+        <span class="pagination-number">Página {{ paginator.page }} de {{ paginator.total_pages }}</span>
+        {% if paginator.next_page %}
+          <a href="{{ paginator.next_page_path | prepend: site.baseurl  }}" class="pagination-next btn">&rang;&nbsp;</a>
+        {% else %}
+          <span>&nbsp;</span>
+        {% endif %}
+      </div>
+
+    {% endif %}
+
+  {% else %}
+    <ul class="post-list">
+      {% for post in site.posts %}
+        {% include post-list-item.html %}
+      {% endfor %}
+    </ul>
+  
+  {% endif %}
+    
 
 </main>

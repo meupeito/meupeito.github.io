@@ -13,11 +13,18 @@
       {% endif %}
     </div>
     <span class="post-date">
-      {% if post.author and post.author != "" %}
-        {{ post.author }},
+      <!-- {% if post.author and post.author != "" %} -->
+        <!-- {{ post.author }}, -->
+      <!-- {% endif %} -->
+      {% if post.no_date != true %}
+        {% assign months = "janeiro,fevereiro,março,abril,maio,junho,julho,agosto,setembro,outubro,novembro,dezembro" | split: "," %}
+        {% assign m = post.date | date: "%-m" | minus: 1 %}
+        {% assign day = post.date | date: "%-d" %}
+        {% assign month = months[m] %}
+        {% assign year = post.date | date: "%Y" %}
+        {{ day }} de {{ month }}
+        <!-- de {{ year }} -->
       {% endif %}
-      <!-- {{ post.date | date: "%b %-d, '%y" }} -->
-      {{ post.date | date: "%-d/%-m/%y" }}
     </span>
   </a>
 </li>

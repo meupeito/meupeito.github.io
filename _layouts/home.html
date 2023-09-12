@@ -35,11 +35,18 @@ layout: default
   {% if site.paginate and site.paginate_path %}
     
     <ul class="post-list">
+      <li>
+        <a href="/apocrifos" class="post-link">
+          <div class="post-link__heading">
+            <h1 class="post-link__title">      
+              &#8627 Apócrifos
+            </h1>
+          </div>
+        </a>
+      </li>
       {% for post in paginator.posts %}
-        {% if post.category == "debug" %}
-          {% if site.debug %}
-            {% include post-list-item.html %}
-          {% endif %}
+        {% if post.category == "apocrifos" %}
+          
         {% else %}
           {% include post-list-item.html %}
         {% endif %}
